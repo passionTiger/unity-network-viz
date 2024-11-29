@@ -64,7 +64,7 @@ options:
 timeout: '3600s'
 images: []
 
-secrets:
+availableSecrets:
   - secretManager:
       version: "1"
       secret: "projects/cloud-cloud-2024/secrets/docker-credentials"  # Secret Manager에서 비밀 가져오기
