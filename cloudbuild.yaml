@@ -1,15 +1,52 @@
 steps:
     # Docker login using environment variables
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'login'
-      - '--username'
-      - '${_DOCKER_USERNAME}'  # 환경 변수로 설정된 Docker 사용자명 사용
-      - '--password'
-      - '${_DOCKER_PASSWORD}'  # 환경 변수로 설정된 Docker 비밀번호 사용
-    secretEnv:
-      - _DOCKER_USERNAME  # 환경 변수 설정
-      - _DOCKER_PASSWORD  # 환경 변수 설정
+
+     - name: 'gcr.io/cloud-builders/docker'
+       entrypoint: 'bash'
+       args: ['-c', 'docker login --username=$$USERNAME --password=$$PASSWORD']
+       secretEnv: ['USERNAME', 'PASSWORD']
+     - name: "gcr.io/cloud-builders/docker"
+       entrypoint: 'bash'
+       args: ['-c', 'docker run $$USERNAME/REPOSITORY:TAG']
+       secretEnv: ['USERNAME']
+ 
+{
+  "steps": [
+  {
+    "name": "gcr.io/cloud-builders/docker",
+    "entrypoint": "bash",
+    "args": [
+      "-c",
+      "docker login --username=$$USERNAME --password=$$PASSWORD"
+    ],
+    "secretEnv": [
+      "USERNAME",
+      "PASSWORD"
+    ]
+  },
+  {
+    "name": "gcr.io/cloud-builders/docker",
+    "entrypoint": "bash",
+    "args": [
+      "-c",
+      "docker run $$USERNAME/REPOSITORY:TAG"
+     ],
+     "secretEnv": [
+      "USERNAME"
+    ]
+  }
+  ],
+  "availableSecrets": {
+    "secretManager": [{
+      "versionName": "projects/cloud-2024-2024/secrets/docker-username/versions/1",
+      "env": "PASSWORD"
+  }, {
+    "versionName": "projects/cloud-2024-2024/secrets/docker-password/versions/1",
+    "env": "USERNAME"
+     }]
+  }
+}
+
       
   # Unity WebGL 빌드 수행
 
@@ -64,4 +101,9 @@ options:
 timeout: '3600s'
 images: []
 
-
+ availableSecrets:
+   secretManager:
+   - versionName: projects/cloud-2024-2024/secrets/docker-username/versions/1
+     env: 'PASSWORD'
+   - versionName: projects/cloud-2024-2024/secrets/docker-password/versions/1
+     env: 'USERNAME'
