@@ -15,7 +15,7 @@ availableSecrets:
   - secretManager:
       version: "1"
       secret: "projects/cloud-cloud-2024/secrets/docker-credentials"
-      # Secret Manager에서 비밀번호를 가져오는 방법
+      # Secret Manager에서 비밀번호를 가져오는 방법 (수정)
       
   # Unity WebGL 빌드 수행
   - name: 'gcr.io/cloud-builders/docker'
