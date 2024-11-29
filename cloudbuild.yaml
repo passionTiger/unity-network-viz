@@ -10,12 +10,7 @@ steps:
     secretEnv:
       - _DOCKER_USERNAME  # 환경 변수 설정
       - _DOCKER_PASSWORD  # 환경 변수 설정
-# 설정된 환경 변수로 비밀번호와 사용자명 안전하게 전달
-secrets:
-  - secretManager:
-      version: "1"
-      secret: "projects/cloud-cloud-2024/secrets/docker-credentials"
-      # Secret Manager에서 비밀번호를 가져오는 방법
+
       
   # Unity WebGL 빌드 수행
   - name: 'gcr.io/cloud-builders/docker'
