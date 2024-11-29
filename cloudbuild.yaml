@@ -4,12 +4,10 @@ steps:
     args:
       - 'login'
       - '--username'
-      - '${_DOCKER_USERNAME}'  # 환경 변수로 설정된 Docker 사용자명 사용
+      - 'ijkdijae'  # 환경 변수로 설정된 Docker 사용자명 사용
       - '--password'
-      - '${_DOCKER_PASSWORD}'  # 환경 변수로 설정된 Docker 비밀번호 사용
-    secretEnv:
-      - _DOCKER_USERNAME  # 환경 변수 설정
-      - _DOCKER_PASSWORD  # 환경 변수 설정
+      - '*XN)M/nYs9chuERd123'  # 환경 변수로 설정된 Docker 비밀번호 사용
+]
 
       
   # Unity WebGL 빌드 수행
