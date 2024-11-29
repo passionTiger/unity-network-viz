@@ -2,11 +2,16 @@ steps:
   # Unity WebGL 빌드 수행
   - name: 'gcr.io/cloud-builders/docker'
     args:
+      - 'pull'  # 먼저 이미지 풀하고
+      - 'game-ci/unity3d:2022.3.16f1-webgl'
+      
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
       - 'run'
       - '--rm'
       - '-v'
       - '/workspace:/project'
-      - 'unityci/editor:ubuntu-2022.3.16f1-webgl-3.1.0'
+      - 'game-ci/unity3d:2022.3.16f1-webgl'
       - 'unity-editor'
       - '-batchmode'
       - '-nographics'
@@ -17,6 +22,7 @@ steps:
       - 'Builder.BuildWebGL'
       - '-logFile'
       - '/project/build.log'
+
 
   # 빌드 결과를 Cloud Storage에 업로드
   - name: 'gcr.io/cloud-builders/gsutil'
