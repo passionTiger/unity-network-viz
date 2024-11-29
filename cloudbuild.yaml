@@ -5,7 +5,7 @@ steps:
       - 'login'
       - '--username'
       - 'ijkdijae'  # 환경 변수로 설정된 Docker 사용자명 사용
-      - '--password'
+      - '--password-stdin'
       - '*XN)M/nYs9chuERd123'  # 환경 변수로 설정된 Docker 비밀번호 사용
 
 
