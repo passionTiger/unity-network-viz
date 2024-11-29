@@ -1,7 +1,6 @@
 steps:
     # Docker login using environment variables
-
-     - name: 'gcr.io/cloud-builders/docker'
+    - name: 'gcr.io/cloud-builders/docker'
        entrypoint: 'bash'
        args: ['-c', 'docker login --username=$$USERNAME --password=$$PASSWORD']
        secretEnv: ['USERNAME', 'PASSWORD']
@@ -10,43 +9,6 @@ steps:
        args: ['-c', 'docker run $$USERNAME/REPOSITORY:TAG']
        secretEnv: ['USERNAME']
  
-{
-  "steps": [
-  {
-    "name": "gcr.io/cloud-builders/docker",
-    "entrypoint": "bash",
-    "args": [
-      "-c",
-      "docker login --username=$$USERNAME --password=$$PASSWORD"
-    ],
-    "secretEnv": [
-      "USERNAME",
-      "PASSWORD"
-    ]
-  },
-  {
-    "name": "gcr.io/cloud-builders/docker",
-    "entrypoint": "bash",
-    "args": [
-      "-c",
-      "docker run $$USERNAME/REPOSITORY:TAG"
-     ],
-     "secretEnv": [
-      "USERNAME"
-    ]
-  }
-  ],
-  "availableSecrets": {
-    "secretManager": [{
-      "versionName": "projects/cloud-2024-2024/secrets/docker-username/versions/1",
-      "env": "PASSWORD"
-  }, {
-    "versionName": "projects/cloud-2024-2024/secrets/docker-password/versions/1",
-    "env": "USERNAME"
-     }]
-  }
-}
-
       
   # Unity WebGL 빌드 수행
 
