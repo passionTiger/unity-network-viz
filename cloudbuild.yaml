@@ -18,13 +18,7 @@ availableSecrets:
       # Secret Manager에서 비밀번호를 가져오는 방법 (수정)
       
   # Unity WebGL 빌드 수행
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'login'
-      - '--username'
-      - 'your-docker-username'
-      - '--password'
-      - 'your-docker-password'
+
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'pull'  # 먼저 이미지 풀하고
