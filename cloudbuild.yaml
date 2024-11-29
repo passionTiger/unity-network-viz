@@ -8,7 +8,7 @@ steps:
       - '--rm'
       - '-v'
       - '/workspace:/project'
-      - 'unityci/editor:ubuntu-6000.0.28f1-webgl-3'
+      - 'unityci/editor:ubuntu-2022.3.16f1-webgl-3.1.0'
       - 'unity-editor'
       - '-batchmode'
       - '-nographics'
