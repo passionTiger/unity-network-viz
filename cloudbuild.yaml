@@ -26,3 +26,5 @@ steps:
       - '--command=sudo systemctl restart nginx'
 
 timeout: "600s"
+options:
+  logging: CLOUD_LOGGING_ONLY
