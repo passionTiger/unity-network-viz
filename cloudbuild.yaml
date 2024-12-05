@@ -4,7 +4,10 @@ steps:
     args:
       - '-c'
       - |
-        # WebGL 빌드 파일을 GCP 스토리지 버킷에 업로드
+        # 기존 WebGL 파일 삭제
+        gsutil -m rm -r gs://unity-webgl-builds-cloud-cloud-2024/webgl/*
+
+        # 새로운 WebGL 파일 업로드
         gsutil -m rsync -r ./gzip_build gs://unity-webgl-builds-cloud-cloud-2024/webgl/
 
   - name: 'gcr.io/cloud-builders/gcloud'
