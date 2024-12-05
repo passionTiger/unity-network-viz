@@ -13,9 +13,9 @@ steps:
       - '-c'
       - |
         # GCP VM에 파일 복사
-        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="mkdir -p /tmp/webgl/"
+        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="mkdir -p /tmp/webgl/" --troubleshoot
         gcloud compute scp --recurse gs://unity-webgl-builds-cloud-cloud-2024/webgl/* ijkdijae1@unity-dev-instance:/tmp/webgl/ --zone=asia-northeast3-a
-        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="sudo mv /tmp/webgl/* /var/www/html/"
+        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="sudo mv /tmp/webgl/* /var/www/html/" --troubleshoot
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
