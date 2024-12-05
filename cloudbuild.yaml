@@ -1,49 +1,28 @@
 steps:
-  # Unity WebGL 빌드 수행
-
-      
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'run'
-      - '--rm'
-      - '-v'
-      - '/workspace:/project'
-      - 'unityci/editor:ubuntu-2022.3.16f1-webgl-3.1.0'
-      - 'unity-editor'
-      - '-batchmode'
-      - '-nographics'
-      - '-quit'
-      - '-projectPath'
-      - '/project'
-      - '-executeMethod'
-      - 'Builder.BuildWebGL'
-      - '-logFile'
-      - '/project/build.log'
-
-
-  # 빌드 결과를 Cloud Storage에 업로드
   - name: 'gcr.io/cloud-builders/gsutil'
+    entrypoint: 'bash'
     args:
-      - '-m'
-      - 'cp'
-      - '-r'
-      - 'builds/WebGL/*'
-      - 'gs://unity-webgl-builds-${PROJECT_ID}/'
+      - '-c'
+      - |
+        # WebGL 빌드 파일을 GCP 스토리지 버킷에 업로드
+        gsutil rsync -r ./gzip_build gs://unity-webgl-builds-cloud-cloud-2024/webgl/
 
-  # Cloud Run에 WebGL 결과 배포
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # GCP VM에 파일 복사
+        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="mkdir -p /tmp/webgl/"
+        gcloud compute scp --recurse gs://unity-webgl-builds-cloud-cloud-2024/webgl/* ijkdijae1@unity-dev-instance:/tmp/webgl/ --zone=asia-northeast3-a
+        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="sudo mv /tmp/webgl/* /var/www/html/"
+
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
-      - 'run'
-      - 'deploy'
-      - 'unity-webgl'
-      - '--source'
-      - './'
-      - '--region'
-      - 'us-central1'
-      - '--allow-unauthenticated'
-      
+      - 'compute'
+      - 'ssh'
+      - 'ijkdijae1@unity-dev-instance'
+      - '--zone=asia-northeast3-a'
+      - '--command=sudo systemctl restart nginx'
 
-options:
-  logging: CLOUD_LOGGING_ONLY
-timeout: '3600s'
-
+timeout: "600s"
