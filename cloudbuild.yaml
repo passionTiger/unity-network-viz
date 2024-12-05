@@ -4,7 +4,7 @@ steps:
     args:
       - '-c'
       - |
-        # WebGL 빌드 파일을 GCP 스토리지 버킷에 업로드ㅇㄴd
+        # WebGL 빌드 파일을 GCP 스토리지 버킷에 업로드
         gsutil rsync -r ./gzip_build gs://unity-webgl-builds-cloud-cloud-2024/webgl/
 
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -12,10 +12,12 @@ steps:
     args:
       - '-c'
       - |
-        # GCP VM에 파일 복사
-        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="mkdir -p /tmp/webgl/" --troubleshoot
-        gcloud compute scp --recurse gs://unity-webgl-builds-cloud-cloud-2024/webgl/* ijkdijae1@unity-dev-instance:/tmp/webgl/ --zone=asia-northeast3-a
-        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="sudo mv /tmp/webgl/* /var/www/html/" --troubleshoot
+        # GCP VM에서 GCS 버킷으로부터 파일 다운로드
+        gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="
+          sudo mkdir -p /tmp/webgl/ &&
+          gsutil rsync -r gs://unity-webgl-builds-cloud-cloud-2024/webgl/ /tmp/webgl/ &&
+          sudo mv /tmp/webgl/* /var/www/html/
+        "
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
