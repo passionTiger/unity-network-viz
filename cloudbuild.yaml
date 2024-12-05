@@ -14,8 +14,9 @@ steps:
       - |
         # GCP VM에서 GCS 버킷의 파일을 복사
         gcloud compute ssh ijkdijae1@unity-dev-instance --zone=asia-northeast3-a --command="
-          sudo mkdir -p /tmp/webgl /var/www/html &&
+          sudo mkdir -p /tmp/webgl &&
           sudo gsutil -m rsync -r gs://unity-webgl-builds-cloud-cloud-2024/webgl/ /tmp/webgl &&
+          sudo rm -rf /var/www/html/* &&
           sudo mv /tmp/webgl/* /var/www/html/ &&
           sudo chown -R www-data:www-data /var/www/html/ &&
           sudo chmod -R 755 /var/www/html/
